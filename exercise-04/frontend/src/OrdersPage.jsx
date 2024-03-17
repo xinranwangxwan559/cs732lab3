@@ -1,25 +1,25 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import { AppContext } from "./AppContextProvider";
 import { createCartSummary } from "./useShoppingCartProducts";
 import styles from "./OrdersPage.module.css";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "";
 
-/**
- * Renders a list of orders obtained from the API.
- */
 export default function OrdersPage() {
   const { products } = useContext(AppContext);
+  const [orders, setOrders] = useState([]); // State to store fetched orders
 
-  // TODO Swap this out for an API call to /api/orders.
-  const dummyOrders = [
-    { id: "order1", order: ["1", "3", "3", "6"] },
-    { id: "order2", order: ["6", "6", "2", "5", "1"] },
-    { id: "order3", order: ["5", "5", "5", "5"] }
-  ];
+  useEffect(() => {
+    axios.get(`${API_BASE_URL}/api/orders`)
+      .then(response => {
+        setOrders(response.data); // Set the fetched orders to state
+      })
+      .catch(error => console.error("Failed to fetch orders:", error));
+  }, []); // Empty dependency array means this runs once on mount
 
-  // Turn orders from a list of product ids into a summary format as shown in the user's shopping cart
-  const orderSummaries = dummyOrders.map((order) => ({
+  // Map over the fetched orders to create a summary for each
+  const orderSummaries = orders.map(order => ({
     id: order.id,
     summary: createCartSummary(products, order.order)
   }));
@@ -36,11 +36,11 @@ export default function OrdersPage() {
           </tr>
         </thead>
         <tbody>
-          {orderSummaries.map((os) => (
+          {orderSummaries.map(os => (
             <tr key={os.id}>
               <td>{os.id}</td>
               <td>{getOrderSummaryString(os.summary)}</td>
-              <td>{os.summary.totalCost}</td>
+              <td>{os.summary.totalCost.toLocaleString()}</td>
             </tr>
           ))}
         </tbody>
@@ -49,9 +49,6 @@ export default function OrdersPage() {
   );
 }
 
-/**
- * Turns an order summary into a string, e.g. 1 Abra, 2 Nidorina, 1 Porygon
- */
 function getOrderSummaryString(summary) {
-  return summary.map((line) => `${line.count} ${line.product.name}`).join(", ");
+  return summary.map(line => `${line.count} ${line.product.name}`).join(", ");
 }
