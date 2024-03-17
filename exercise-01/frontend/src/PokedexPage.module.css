@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 10px;
+  text-align: center;
+}
+
+.container p {
+  font-size: 130%;
+}
+
+.dexImage {
+  width: 256px;
+}
+
+.placeholderImage {
+  width: 256px;
+  animation: rotate 1s linear 0s infinite forwards;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,68 @@
+.container {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dexContainer {
+  width: 800px;
+  height: 600px;
+  display: grid;
+  grid-template-columns: 256px 1fr;
+  box-sizing: border-box;
+  gap: 20px;
+}
+
+.list {
+  height: 100%;
+  border: 2px solid black;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 20px 0;
+  overflow: hidden;
+}
+
+.list > div {
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.listItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 10px;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+  text-decoration: none;
+  color: inherit;
+}
+
+.listItem:nth-child(odd) {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+.listItem img {
+  width: 30px;
+}
+
+.listItem:hover,
+.listItem.activeListItem {
+  border: 2px solid red;
+}
+
+.dexView {
+  height: 100%;
+  border: 2px solid black;
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
